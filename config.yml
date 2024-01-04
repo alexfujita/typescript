@@ -1,0 +1,18 @@
+ENV_NAME: xxx
+
+# DB
+DB_HOST: xxx
+DB_USER: xxx
+DB_PASSWORD: xxx
+DB_DATABASE: xxx
+
+# APIFY
+PROXY_URL: 'xxx'
+APIFY_ID: 'xxx'
+APIFY_TOKEN: 'xxx'
+POST_SCRAPER_ID: 'xxx'
+PROFILE_SCRAPER_ID: 'xxx'
+
+# SLACK
+SLACK_WEBHOOK: 'xxx'
+SLACK_CHANNEL: '#xxx'

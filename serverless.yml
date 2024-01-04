@@ -1,0 +1,63 @@
+service: scrape
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: default
+  region: ap-northeast-1
+  memorySize: 1024
+  timeout: 180
+  deploymentBucket:
+    name: scraper-lambda-ap1
+  environment: ${file(config.${self:provider.stage}.yml)}
+  vpc: ${self:custom.vpc.${self:provider.stage}}
+  role: arn:aws:iam::***:role/***
+
+plugins:
+  - serverless-webpack
+  - serverless-prune-plugin
+
+custom:
+  defaultStage: dev
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  webpackIncludeModules:
+    forceInclude:
+      - mysql
+  prune:
+    automatic: true
+    number: 3
+  vpc:
+    dev:
+      securityGroupIds:
+        - xxx
+      subnetIds:
+        - subnet-xxx
+    prod:
+      securityGroupIds:
+        - sg-xxx
+      subnetIds:
+        - subnet-xxx
+functions:
+  profile-apify-client:
+    handler: src/functions/profile-apify-client.handler
+    role: arn:aws:iam::***:role/***
+    timeout: 300
+    events:
+      - schedule: rate(6 hours)
+  post-apify-client:
+    handler: src/functions/post-apify-client.handler
+    role: arn:aws:iam::***:role/***
+    timeout: 300
+    events:
+      - schedule: rate(3 hours)
+  profile-apify:
+    handler: src/functions/profile-apify.handler
+    role: arn:aws:iam::***:role/***
+    timeout: 300
+  post-apify:
+    handler: src/functions/post-apify.handler
+    role: arn:aws:iam::***:role/***
+    timeout: 300

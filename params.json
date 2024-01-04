@@ -1,0 +1,11 @@
+{
+    "queryStringParameters": {
+        "programIds": [
+            1000000246
+        ],
+        "start": "2020-07-22",
+        "end": "2020-07-31",
+        "limit": 500,
+        "offset": 0
+    }
+}
